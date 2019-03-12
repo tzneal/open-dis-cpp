@@ -5,10 +5,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include "PduUtils.h"            // for init functions
 
-#include <DIS/StreamUtils.h>         // for stream operators so unit test macros compile
-#include <DIS/DataStream.h>       // for use
-#include <DIS/EntityStatePdu.h>   // for testing
-#include <DIS/DetonationPdu.h>    // for testing
+#include <utils/StreamUtils.h>         // for stream operators so unit test macros compile
+#include <utils/DataStream.h>       // for use
+#include <dis6/EntityStatePdu.h>   // for testing
+#include <dis6/DetonationPdu.h>    // for testing
 
 namespace TestDIS
 {

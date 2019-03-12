@@ -120,7 +120,7 @@ bool Pdu::operator ==(const Pdu& rhs) const
      if( ! (_pduType == rhs._pduType) ) ivarsEqual = false;
      if( ! (_protocolFamily == rhs._protocolFamily) ) ivarsEqual = false;
      if( ! (_timestamp == rhs._timestamp) ) ivarsEqual = false;
-     if( ! (_length == rhs._length) ) ivarsEqual = false;
+     if( ! (getLength() == rhs.getLength()) ) ivarsEqual = false;
      if( ! (_padding == rhs._padding) ) ivarsEqual = false;
 
     return ivarsEqual;

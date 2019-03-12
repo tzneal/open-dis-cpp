@@ -4,8 +4,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <DIS/DataStream.h>       // for testing
-#include <DIS/EntityStatePdu.h>   // for usage
+#include <utils/DataStream.h>       // for testing
+#include <dis6/EntityStatePdu.h>   // for usage
 
 #include <cstdlib>   // for NULL definition
 #include <cstring>   // for strlen

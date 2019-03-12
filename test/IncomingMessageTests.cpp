@@ -4,13 +4,13 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <DIS/IncomingMessage.h>    // for testing
-#include <DIS/DataStream.h>         // for usage
-#include <DIS/IPacketProcessor.h>   // for usage
-#include <DIS/EntityStatePdu.h>     // for usage
-#include <DIS/DetonationPdu.h>     // for usage
-#include <DIS/CollisionPdu.h>     // for usage
-#include <DIS/PDUType.h>
+#include <utils/IncomingMessage.h>    // for testing
+#include <utils/DataStream.h>         // for usage
+#include <utils/IPacketProcessor.h>   // for usage
+#include <dis6/EntityStatePdu.h>     // for usage
+#include <dis6/DetonationPdu.h>     // for usage
+#include <dis6/CollisionPdu.h>     // for usage
+#include <utils/PDUType.h>
 #include "PduUtils.h"
 
 namespace TestDIS

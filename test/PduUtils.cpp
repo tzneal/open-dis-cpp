@@ -1,10 +1,10 @@
 #include "PduUtils.h"
 
-#include <DIS/EntityStatePdu.h>
-#include <DIS/DetonationPdu.h>
-#include <DIS/CollisionPdu.h>
+#include <dis6/EntityStatePdu.h>
+#include <dis6/DetonationPdu.h>
+#include <dis6/CollisionPdu.h>
 
-#include <DIS/Conversion.h>
+#include <utils/Conversion.h>
 
 void TestDIS::InitPDU(DIS::DetonationPdu& pdu)
 {
