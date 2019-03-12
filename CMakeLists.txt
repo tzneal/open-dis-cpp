@@ -1,0 +1,81 @@
+cmake_minimum_required(VERSION 3.10)
+
+
+# prevent in source tree building
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+
+project(OpenDIS VERSION 1.0.0 LANGUAGES CXX)
+
+SET(CPACK_GENERATOR "TGZ;DEB;RPM")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Leif Gruenwoldt")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+SET(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_PACKAGE_VENDOR "OpenDIS")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "OpenDIS C++ Library")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+list(APPEND CPACK_SOURCE_IGNORE_FILES "\.git.*")
+list(APPEND CPACK_SOURCE_IGNORE_FILES "\.travis.yml")
+list(APPEND CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR}")
+include(CPack)
+
+if(BUILD_SHARED_LIBS)
+else()
+endif()
+
+
+file(GLOB UTIL_SRC ${CMAKE_SOURCE_DIR}/src/utils/*.cpp)
+file(GLOB DIS6_SRC ${CMAKE_SOURCE_DIR}/src/dis6/*.cpp)
+
+add_library(OpenDIS-static STATIC ${UTIL_SRC} ${DIS6_SRC})
+add_library(OpenDIS SHARED ${UTIL_SRC} ${DIS6_SRC})
+
+target_include_directories(
+    OpenDIS
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:include/OpenDIS>
+)
+
+
+target_include_directories(
+    OpenDIS-static
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:include/OpenDIS>
+)
+
+install(DIRECTORY src/dis6 DESTINATION include/OpenDIS FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY src/utils DESTINATION include/OpenDIS FILES_MATCHING PATTERN "*.h")
+
+install(TARGETS OpenDIS
+        EXPORT OpenDIS
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include
+)
+
+install(TARGETS OpenDIS-static
+        EXPORT OpenDIS
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include
+)
+
+
+install(EXPORT OpenDIS NAMESPACE OpendDIS:: DESTINATION share/OpendDIS CONFIGURATIONS Release)
+
+# unit tests
+enable_testing()
+LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARY})
+FILE(GLOB_RECURSE UNIT_TESTS ${CMAKE_SOURCE_DIR}/test/*.cpp)
+include_directories(${CMAKE_SOURCE_DIR}/src/)
+add_executable(${PROJECT_NAME}_test ${UNIT_TESTS})
+find_library(CPPUNIT_LIBRARY cppunit)
+target_link_libraries(${PROJECT_NAME}_test OpenDIS ${CPPUNIT_LIBRARY})
+ADD_TEST(build_${PROJECT_NAME}_test "${CMAKE_COMMAND}" --build ${CMAKE_BINARY_DIR} --target ${PROJECT_NAME}_test)
+add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test)
+SET_TESTS_PROPERTIES(${PROJECT_NAME}_test PROPERTIES DEPENDS build_${PROJECT_NAME}_test)

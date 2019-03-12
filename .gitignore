@@ -7,3 +7,4 @@ OpenDis.make
 *.suo
 obj/
 Build/
+build/
